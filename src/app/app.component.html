@@ -1,7 +1,4 @@
-<div>
-  <h2>Items</h2>
-  <ul>
-    <li *ngFor="let item of items">{{ item.title }}</li>
-  </ul>
-  <div *ngIf="loading">Loading...</div>
+<div class="app-container">
+  <h1>Item Manager</h1>
+  <app-item-list></app-item-list>
 </div>

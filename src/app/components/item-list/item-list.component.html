@@ -1,0 +1,11 @@
+
+  <h2>Item List</h2>
+  <div class="item-list__item" *ngFor="let item of items" (click)="selectItem(item)">
+    <img [src]="'assets/images/' +item.image" alt="{{ item.title }}" />
+    <h3>{{ item.title }}</h3>
+    <p>{{ item.description }}</p>
+    <p>Price: {{ item.price | currency }}</p>
+    <p>Email: {{ item.email }}</p>
+  </div>
+  <button *ngIf="!isLoading && hasMoreItems" (click)="onScroll()">Load More</button>
+  <div *ngIf="isLoading">isLoading...</div>
