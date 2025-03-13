@@ -30,6 +30,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "/assets"
+              },
+              {
+                "glob": "mockServiceWorker.js",
+                "input": "src",
+                "output": "/"
               }
             ],
             "styles": [

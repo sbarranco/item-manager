@@ -7,8 +7,13 @@ import { environment } from './environments/environment';
 if (environment.production) {
   enableProdMode();
 } else {
-  const { worker } = require('./mocks/browser');
-  worker.start();
+  import('./mocks/browser').then(({ worker }) => {
+    worker.start({
+      serviceWorker: {
+        url: '/mockServiceWorker.js',
+      },
+    });
+  });
 }
 
 bootstrapApplication(AppComponent, appConfig).catch((err) =>
