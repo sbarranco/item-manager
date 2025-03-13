@@ -1,21 +1,23 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
-import { enableProdMode } from '@angular/core';
-import { environment } from './environments/environment';
+import { isDevMode } from '@angular/core';
 
-if (environment.production) {
-  enableProdMode();
-} else {
-  import('./mocks/browser').then(({ worker }) => {
-    worker.start({
+async function prepareApp() {
+  if (isDevMode()) {
+    const { worker } = await import('./mocks/browser');
+    return worker.start({
       serviceWorker: {
         url: '/mockServiceWorker.js',
       },
     });
-  });
+  }
+
+  return Promise.resolve();
 }
 
-bootstrapApplication(AppComponent, appConfig).catch((err) =>
-  console.error(err)
-);
+prepareApp().then(() => {
+  bootstrapApplication(AppComponent, appConfig).catch((err) =>
+    console.error(err)
+  );
+});
