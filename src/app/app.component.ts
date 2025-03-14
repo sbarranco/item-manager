@@ -13,17 +13,10 @@ import { Item } from './state/models/item.model';
 })
 export class AppComponent {
   title = 'item-manager';
-  private AppFacade = inject(AppFacade);
-
-  favorites$ = this.AppFacade.favoriteItems$;
 
   isFavoritesModalOpen = signal(false);
 
   openFavoritesModal(): void {
     this.isFavoritesModalOpen.set(!this.isFavoritesModalOpen());
-  }
-
-  onDeleteFavorites(item: Item): void {
-    this.AppFacade.deleteFavoriteItem(item);
   }
 }

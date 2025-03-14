@@ -9,14 +9,13 @@
           </button>
         </div>
         <div class="modal-body">
-          <div *ngIf="favorites.length === 0">No favorites added.</div>
-          <ul *ngIf="favorites.length > 0">
-            <li *ngFor="let item of favorites()">
-              <img [src]="item.image" alt="{{ item.title }}" class="favorite-item-image" />
-              <span>{{ item.title }}</span>
-              <button (click)="deleteFromFavorites.emit(item)">Remove</button>
-            </li>
-          </ul>
+          @for (item of favorites$ | async; track $index) {
+            <img [src]="'assets/images/' + item.image" alt="{{ item.title }}" class="favorite-item-image" />
+            <span>{{ item.title }}</span>
+            <button (click)="onDeleteFavorites(item)">Remove</button>
+          } @empty {
+            <div>No favorites added.</div>
+          }
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="closeModal.emit()">Close</button>

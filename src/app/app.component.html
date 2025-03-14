@@ -1,4 +1,4 @@
-<nav>
+<nav class="app-nav">
   <button class="btn btn-primary" (click)="openFavoritesModal()">Favorites</button>
 </nav>
 <header class="app-header">
@@ -6,7 +6,7 @@
 </header>
 <main class="app-container">
   <app-item-list></app-item-list>
-  <app-favorites-modal [isOpen]="isFavoritesModalOpen()"  (deleteFromFavorites)="onDeleteFavorites($event)" (closeModal)="openFavoritesModal()"></app-favorites-modal>
+  <app-favorites-modal [isOpen]="isFavoritesModalOpen()" (closeModal)="openFavoritesModal()"></app-favorites-modal>
 </main>
 <footer class="app-footer">
   <p>© 2021 Item Manager</p>

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { Item } from '../../state/models/item.model';
+import { AppFacade } from '../../state/facades/app.facade';
 
 @Component({
   selector: 'app-favorites-modal',
@@ -9,8 +10,14 @@ import { Item } from '../../state/models/item.model';
   imports: [CommonModule],
 })
 export class FavoritesModalComponent {
-  favorites = input<Array<Item>>();
   isOpen = input<boolean>(false);
   closeModal = output<void>();
-  deleteFromFavorites = output<Item>();
+
+  private appFacade = inject(AppFacade);
+
+  favorites$ = this.appFacade.favoriteItems$;
+
+  onDeleteFavorites(item: Item): void {
+    this.appFacade.deleteFavoriteItem(item);
+  }
 }
