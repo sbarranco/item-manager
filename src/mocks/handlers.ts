@@ -10,16 +10,16 @@ export const handlers = [
     return HttpResponse.json({ items: paginatedItems });
   }),
 
-  http.get('/api/items/filter', ({ params }) => {
-    const filters = params || {};
-    const filteredItems = data.items.filter((item: { [key: string]: any }) => {
-      let isValid = true;
-      Object.entries(filters).forEach(([key, value]) => {
-        if (item[key as keyof typeof item] !== value) {
-          isValid = false;
-        }
+  http.get('/api/items/filter', ({ request }) => {
+    const url = new URL(request.url);
+    const filters = Object.fromEntries(url.searchParams.entries());
+    const filteredItems = data.items.filter((item) => {
+      return Object.entries(filters).every(([key, value]) => {
+        return (
+          (item as Record<string, any>)[key] &&
+          (item as Record<string, any>)[key].toString().includes(value)
+        );
       });
-      return isValid;
     });
     return HttpResponse.json({ items: filteredItems });
   }),

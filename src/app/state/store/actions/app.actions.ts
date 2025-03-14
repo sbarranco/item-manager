@@ -1,12 +1,11 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Item } from '../../models/item.model';
+import { Item, Pagination } from '../../models/item.model';
 
 export const LoadItemsActions = createActionGroup({
   source: '[Item] Load Items',
   events: {
     'Load Items': props<{
-      limit: number;
-      offset: number;
+      pagination: Pagination;
     }>(),
 
     'Load Items Success': props<{
@@ -20,7 +19,7 @@ export const SearchItemsActions = createActionGroup({
   source: '[Item]  Search Items',
   events: {
     ' Search Items': props<{
-      query: string;
+      query: { [key: string]: any };
     }>(),
 
     ' Search Items Success': props<{
@@ -38,10 +37,6 @@ export const AddFavoriteItem = createActionGroup({
     }>(),
     'Delete Favorite Item': props<{
       item: Item;
-    }>(),
-
-    'Get Favorite Items': props<{
-      items: Item[];
     }>(),
   },
 });

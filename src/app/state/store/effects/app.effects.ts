@@ -3,10 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ItemService } from '../../../services/items.service';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import * as fromItemActions from '../actions/item.actions';
+import * as fromItemActions from '../actions/app.actions';
+import { toQueryString } from '../../../utils/query-string.util';
 
 @Injectable()
-export class ItemEffects {
+export class AppEffects {
   private readonly actions$ = inject(Actions);
   private readonly itemService = inject(ItemService);
 
@@ -14,16 +15,18 @@ export class ItemEffects {
     this.actions$.pipe(
       ofType(fromItemActions.LoadItemsActions.loadItems),
       mergeMap((action) =>
-        this.itemService.getItems(action.limit, action.offset).pipe(
-          map((response) =>
-            fromItemActions.LoadItemsActions.loadItemsSuccess({
-              items: response.items,
-            })
-          ),
-          catchError(() =>
-            of(fromItemActions.LoadItemsActions.loadItemsFailure())
+        this.itemService
+          .getItems(action.pagination?.limit, action.pagination?.offset)
+          .pipe(
+            map((response) =>
+              fromItemActions.LoadItemsActions.loadItemsSuccess({
+                items: response.items,
+              })
+            ),
+            catchError(() =>
+              of(fromItemActions.LoadItemsActions.loadItemsFailure())
+            )
           )
-        )
       )
     )
   );
@@ -31,8 +34,9 @@ export class ItemEffects {
   searchItems$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fromItemActions.SearchItemsActions.searchItems),
-      mergeMap((action) =>
-        this.itemService.searchItems(action.query).pipe(
+      mergeMap((action) => {
+        const queryString = toQueryString(action.query);
+        return this.itemService.searchItems(queryString).pipe(
           map((response) =>
             fromItemActions.SearchItemsActions.searchItemsSuccess({
               items: response.items,
@@ -41,8 +45,8 @@ export class ItemEffects {
           catchError(() =>
             of(fromItemActions.SearchItemsActions.searchItemsFailure())
           )
-        )
-      )
+        );
+      })
     )
   );
 }
