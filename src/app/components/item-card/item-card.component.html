@@ -1,0 +1,8 @@
+<div class="item-detail">
+  <h2>{{ item().title }}</h2>
+  <img [src]="'assets/images/' + item().image" alt="{{ item().title }}" />
+  <p><strong>Description:</strong> {{ item().description }}</p>
+  <p><strong>Price:</strong> {{ item().price | currency }}</p>
+  <p><strong>Email:</strong> <a href="mailto:{{ item().email }}">{{ item().email }}</a></p>
+  <button (click)="triggerFavorite.emit(item())">Add to Favorites</button>
+</div>

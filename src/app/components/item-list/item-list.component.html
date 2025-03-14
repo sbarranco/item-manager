@@ -1,11 +1,29 @@
 
   <h2>Item List</h2>
-  <div class="item-list__item" *ngFor="let item of items" (click)="selectItem(item)">
-    <img [src]="'assets/images/' +item.image" alt="{{ item.title }}" />
-    <h3>{{ item.title }}</h3>
-    <p>{{ item.description }}</p>
-    <p>Price: {{ item.price | currency }}</p>
-    <p>Email: {{ item.email }}</p>
+
+  <div class="item-list__search">
+    <form [formGroup]="searchForm">
+      <label for="search">Buscar items</label>
+      <input formGroupName="searchPrompt" type="text" placeholder="Title, description, price or email"  />
+      <button (click)="onClickSearchItems()">Buscar</button>
+    </form>
+    <button (click)="onClickShowMoreFilters()">Mostrar más filtros</button>
+    @if(showMoreFilters()) {
+      <form [formGroup]="filterForm">
+        <input formGroupName="title" type="text" name="title" placeholder="Title"/>
+        <input formGroupName="price" type="text" name="price" placeholder="Price"/>
+        <input formGroupName="email" type="email" name="email" placeholder="Email"/>
+        <button (click)="onClickSearchItems()" type="submit">Search</button>
+      </form>
+    }
   </div>
-  <button *ngIf="!isLoading && hasMoreItems" (click)="onScroll()">Load More</button>
-  <div *ngIf="isLoading">isLoading...</div>
+
+  @for (item of items$ | async; track $index) {
+    <app-item-card [item]="item" (triggerFavorite)="onTriggerFavorite($event)"></app-item-card>>
+  }
+
+  <!-- <button *ngIf="!isLoading && hasMoreItems" (click)="onScroll()">Load More</button> -->
+  @if (loading$ | async) {
+    <p>Loading...</p>
+  
+  }

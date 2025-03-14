@@ -1,0 +1,33 @@
+.item-detail {
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin: 16px 0;
+}
+
+.item-detail img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.item-detail h2 {
+    font-size: 24px;
+    margin: 8px 0;
+}
+
+.item-detail p {
+    font-size: 16px;
+    color: #555;
+}
+
+.item-detail .price {
+    font-weight: bold;
+    color: #333;
+}
+
+.item-detail .email {
+    font-style: italic;
+    color: #007bff;
+}
