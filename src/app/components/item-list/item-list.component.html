@@ -1,15 +1,10 @@
 
   <h2>Item List</h2>
 
-  <div class="item-list__search">
-      <label for="search">Buscar items</label>
-      <input id="search" type="text" [formControl]="search"  placeholder="Title, description, price or email">
-      <button (click)="onClickSearchItems()">Buscar</button>
-      <button (click)="onClickResetSearch()">Reset</button>
-  </div>
+  <app-item-search (searchItems)="onClickSearchItems($event)" (resetSearch)="onClickResetSearch()"></app-item-search>
 
   @for (item of items$ | async; track $index) {
-    <app-item-card [item]="item" (triggerFavorite)="onTriggerFavorite($event)"></app-item-card>>
+    <app-item-card [item]="item" (triggerFavorite)="onTriggerFavorite($event)"></app-item-card>
   } @empty {
     <p>No items found.</p>
   }

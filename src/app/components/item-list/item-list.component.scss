@@ -1,0 +1,17 @@
+.app-item-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .item-list__search {
+    margin-bottom: 16px;
+  }
+  
+  .item-list__search input {
+    margin-right: 8px;
+  }
+  
+  .item-list__search button {
+    margin-right: 8px;
+  }

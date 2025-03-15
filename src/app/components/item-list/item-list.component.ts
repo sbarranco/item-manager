@@ -9,86 +9,86 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
+import { ScrollService } from '../../services/scroll/scroll.service';
 import { AppFacade } from '../../state/facades/app.facade';
 import { Item, Pagination } from '../../state/models/item.model';
 import { ItemCardComponent } from '../item-card/item-card.component';
+import { ItemSearchComponent } from '../item-search/item-search.component';
+
+const INITIAL_PAGINATION: Pagination = {
+  limit: 5,
+  start: 0,
+};
 
 @Component({
   selector: 'app-item-list',
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule, ItemCardComponent],
+  imports: [CommonModule, ItemCardComponent, ItemSearchComponent],
 })
 export class ItemListComponent implements OnInit, AfterViewInit {
   @HostBinding('class') class = 'app-item-list';
-  private AppFacade = inject(AppFacade);
+  private appFacade = inject(AppFacade);
+  private scrollService = inject(ScrollService);
 
-  loading$ = this.AppFacade.loading$;
-  items$ = this.AppFacade.items$;
+  loading$ = this.appFacade.loading$;
+  items$ = this.appFacade.items$;
 
-  hasMoreItems = signal(false);
-  pagination = signal<Pagination>({
-    limit: 5,
-    offset: 0,
-  });
+  initialLoadDone = signal(false);
+  isSearchActive = signal(false);
+  pagination = signal<Pagination>(INITIAL_PAGINATION);
 
   search = new FormControl<string>('', [Validators.maxLength(120)]);
 
   @ViewChild('scrollAnchor', { static: false }) scrollAnchor!: ElementRef;
-
-  private observer!: IntersectionObserver;
 
   ngOnInit(): void {
     this.loadItems();
   }
 
   ngAfterViewInit(): void {
-    this.setupIntersectionObserver();
+    this.scrollService.setupIntersectionObserver(this.scrollAnchor, () =>
+      this.onScroll()
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.scrollService.disconnectObserver();
   }
 
   loadItems(): void {
-    this.AppFacade.loadItems(this.pagination());
+    this.appFacade.loadItems(this.pagination());
   }
 
   onScroll(): void {
+    if (!this.initialLoadDone()) {
+      this.initialLoadDone.set(true);
+      return;
+    }
+    if (this.isSearchActive()) {
+      return;
+    }
     this.pagination.set({
       limit: this.pagination().limit,
-      offset: this.pagination().offset + this.pagination().limit,
+      start: this.pagination().start + this.pagination().limit,
     });
     this.loadItems();
   }
 
-  onClickSearchItems(): void {
-    if (this.search.invalid) {
-      return;
-    } else {
-      const query = this.search.value;
-      if (query !== null) {
-        this.AppFacade.searchItems(query);
-      }
-    }
+  onClickSearchItems(query: string): void {
+    this.initialLoadDone.set(false);
+    this.isSearchActive.set(true);
+    this.appFacade.searchItems(query);
   }
 
   onClickResetSearch(): void {
-    this.search.reset();
-    this.pagination.set({
-      limit: 5,
-      offset: 0,
-    });
+    this.pagination.set(INITIAL_PAGINATION);
+    this.isSearchActive.set(false);
     this.loadItems();
   }
 
   onTriggerFavorite(item: Item): void {
-    this.AppFacade.addFavoriteItem(item);
-  }
-
-  private setupIntersectionObserver(): void {
-    this.observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        this.onScroll();
-      }
-    });
-    this.observer.observe(this.scrollAnchor.nativeElement);
+    this.appFacade.addFavoriteItem(item);
   }
 }
