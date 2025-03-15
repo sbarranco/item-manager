@@ -24,7 +24,7 @@ export class AppFacade {
     );
   }
 
-  searchItems(query: { [key: string]: any }): void {
+  searchItems(query: string): void {
     this.store.dispatch(
       fromItemActions.SearchItemsActions.searchItems({ query })
     );

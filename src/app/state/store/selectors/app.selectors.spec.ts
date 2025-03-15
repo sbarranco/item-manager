@@ -5,35 +5,16 @@ import {
   selectFavoriteItems,
 } from './app.selectors';
 import { AppState, ItemState } from '../app.state';
+import {
+  createMockItem,
+  createMockItemList,
+} from '../../models/__mocks__/item.model.mock';
 
 describe('App Selectors', () => {
   const initialState: AppState = {
-    items: [
-      {
-        title: 'Item 1',
-        description: 'Description 1',
-        price: 100,
-        email: 'test@example.com',
-        image: 'image1.jpg',
-      },
-      {
-        title: 'Item 2',
-        description: 'Description 2',
-        price: 200,
-        email: 'test2@example.com',
-        image: 'image2.jpg',
-      },
-    ],
+    items: createMockItemList(),
     loading: false,
-    favoriteItems: [
-      {
-        title: 'Item 1',
-        description: 'Description 1',
-        price: 100,
-        email: 'test@example.com',
-        image: 'image1.jpg',
-      },
-    ],
+    favoriteItems: [createMockItem()],
   };
 
   const appState: ItemState = {

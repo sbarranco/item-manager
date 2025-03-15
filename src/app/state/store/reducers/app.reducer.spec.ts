@@ -2,6 +2,10 @@ import { appReducerReducerFunction } from './app.reducer';
 import * as itemActions from '../actions/app.actions';
 import { AppState } from '../app.state';
 import { Item } from '../../models/item.model';
+import {
+  createMockItem,
+  createMockItemList,
+} from '../../models/__mocks__/item.model.mock';
 
 describe('App Reducer', () => {
   const initialState: AppState = {
@@ -18,22 +22,7 @@ describe('App Reducer', () => {
   });
 
   it('should set loading to false and update items on loadItemsSuccess action', () => {
-    const items: Item[] = [
-      {
-        title: 'Item 1',
-        description: 'Description 1',
-        price: 100,
-        email: 'test@example.com',
-        image: 'image1.jpg',
-      },
-      {
-        title: 'Item 2',
-        description: 'Description 2',
-        price: 200,
-        email: 'test2@example.com',
-        image: 'image2.jpg',
-      },
-    ];
+    const items: Item[] = createMockItemList();
     const action = itemActions.LoadItemsActions.loadItemsSuccess({ items });
     const state = appReducerReducerFunction(initialState, action);
     expect(state.loading).toBe(false);
@@ -47,21 +36,13 @@ describe('App Reducer', () => {
   });
 
   it('should set loading to true on searchItems action', () => {
-    const action = itemActions.SearchItemsActions.searchItems({ query: {} });
+    const action = itemActions.SearchItemsActions.searchItems({ query: '' });
     const state = appReducerReducerFunction(initialState, action);
     expect(state.loading).toBe(true);
   });
 
   it('should set loading to false and update items on searchItemsSuccess action', () => {
-    const items: Item[] = [
-      {
-        title: 'Item 1',
-        description: 'Description 1',
-        price: 100,
-        email: 'test@example.com',
-        image: 'image1.jpg',
-      },
-    ];
+    const items: Item[] = [createMockItem()];
     const action = itemActions.SearchItemsActions.searchItemsSuccess({ items });
     const state = appReducerReducerFunction(initialState, action);
     expect(state.loading).toBe(false);
@@ -75,26 +56,14 @@ describe('App Reducer', () => {
   });
 
   it('should add item to favoriteItems on addFavoriteItem action', () => {
-    const item: Item = {
-      title: 'Item 1',
-      description: 'Description 1',
-      price: 100,
-      email: 'test@example.com',
-      image: 'image1.jpg',
-    };
+    const item: Item = createMockItem();
     const action = itemActions.AddFavoriteItem.addFavoriteItem({ item });
     const state = appReducerReducerFunction(initialState, action);
     expect(state.favoriteItems).toContain(item);
   });
 
   it('should remove item from favoriteItems on deleteFavoriteItem action', () => {
-    const item: Item = {
-      title: 'Item 1',
-      description: 'Description 1',
-      price: 100,
-      email: 'test@example.com',
-      image: 'image1.jpg',
-    };
+    const item: Item = createMockItem();
     const initialStateWithFavorite: AppState = {
       ...initialState,
       favoriteItems: [item],

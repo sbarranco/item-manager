@@ -19,7 +19,7 @@ export const SearchItemsActions = createActionGroup({
   source: '[Item]  Search Items',
   events: {
     ' Search Items': props<{
-      query: { [key: string]: any };
+      query: string;
     }>(),
 
     ' Search Items Success': props<{

@@ -37,7 +37,7 @@ describe('AppFacade', () => {
   });
 
   it('should dispatch searchItems action', () => {
-    const query = { title: 'Item 1' };
+    const query = 'Item 1';
     const spy = jest.spyOn(store, 'dispatch');
     facade.searchItems(query);
     expect(spy).toHaveBeenCalledWith(

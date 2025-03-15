@@ -6,6 +6,7 @@ import { ItemService } from '../../../services/items.service';
 import * as fromItemActions from '../actions/app.actions';
 import { Item } from '../../models/item.model';
 import { Action } from '@ngrx/store';
+import { createMockItemList } from '../../models/__mocks__/item.model.mock';
 
 describe('AppEffects', () => {
   let actions$: Observable<Action>;
@@ -32,22 +33,7 @@ describe('AppEffects', () => {
 
   describe('loadItems$', () => {
     it('should return a loadItemsSuccess action with items on success', () => {
-      const items: Item[] = [
-        {
-          title: 'Item 1',
-          description: 'Description 1',
-          price: 100,
-          email: 'test@example.com',
-          image: 'image1.jpg',
-        },
-        {
-          title: 'Item 2',
-          description: 'Description 2',
-          price: 200,
-          email: 'test2@example.com',
-          image: 'image2.jpg',
-        },
-      ];
+      const items: Item[] = createMockItemList();
       const action = fromItemActions.LoadItemsActions.loadItems({
         pagination: { limit: 5, offset: 0 },
       });
@@ -82,16 +68,8 @@ describe('AppEffects', () => {
 
   describe('searchItems$', () => {
     it('should return a searchItemsSuccess action with items on success', () => {
-      const items: Item[] = [
-        {
-          title: 'Item 1',
-          description: 'Description 1',
-          price: 100,
-          email: 'test@example.com',
-          image: 'image1.jpg',
-        },
-      ];
-      const query = { title: 'Item 1' };
+      const items: Item[] = createMockItemList();
+      const query = 'Item 1';
       const action = fromItemActions.SearchItemsActions.searchItems({ query });
       const outcome = fromItemActions.SearchItemsActions.searchItemsSuccess({
         items,
@@ -107,7 +85,7 @@ describe('AppEffects', () => {
     });
 
     it('should return a searchItemsFailure action on failure', () => {
-      const query = { title: 'Item 1' };
+      const query = 'Item 1';
       const action = fromItemActions.SearchItemsActions.searchItems({ query });
       const outcome = fromItemActions.SearchItemsActions.searchItemsFailure();
 
