@@ -15,7 +15,7 @@ import { ItemCardComponent } from '../item-card/item-card.component';
   selector: 'app-item-list',
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.scss'],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ItemCardComponent],
+  imports: [CommonModule, ReactiveFormsModule, ItemCardComponent],
 })
 export class ItemListComponent implements OnInit {
   @HostBinding('class') class = 'app-item-list';
@@ -24,22 +24,13 @@ export class ItemListComponent implements OnInit {
   loading$ = this.AppFacade.loading$;
   items$ = this.AppFacade.items$;
 
-  showMoreFilters = signal(false);
   hasMoreItems = signal(false);
   pagination = signal<Pagination>({
     limit: 5,
     offset: 0,
   });
 
-  searchForm: FormGroup = new FormGroup({
-    searchPrompt: new FormControl('', [Validators.maxLength(120)]),
-  });
-
-  filterForm: FormGroup = new FormGroup({
-    title: new FormControl('', [Validators.maxLength(120)]),
-    price: new FormControl('', [Validators.pattern(/^\d+$/)]),
-    email: new FormControl('', [Validators.email]),
-  });
+  search = new FormControl<string>('', [Validators.maxLength(120)]);
 
   ngOnInit(): void {
     this.loadItems();
@@ -58,21 +49,17 @@ export class ItemListComponent implements OnInit {
   }
 
   onClickSearchItems(): void {
-    console.log('Searching for:', this.searchForm.value);
-    console.log('Searching for:', this.filterForm.value);
-    this.searchForm.get('searchPrompt')!.markAsTouched();
-    if (this.searchForm.invalid) {
+    if (this.search.invalid) {
       return;
     } else {
-      this.AppFacade.searchItems(this.searchForm.value);
+      const query = this.search.value;
+      if (query !== null) {
+        this.AppFacade.searchItems(query);
+      }
     }
   }
 
-  onClickShowMoreFilters(): void {
-    this.showMoreFilters.set(!this.showMoreFilters());
-  }
-
   onTriggerFavorite(item: Item): void {
-    console.log('Favorite item:', item);
+    this.AppFacade.addFavoriteItem(item);
   }
 }
