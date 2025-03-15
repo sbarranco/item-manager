@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class ItemService {
-  private readonly apiUrl = '/api/items';
+  private readonly apiUrl = environment.apiUrl;
   private readonly http = inject(HttpClient);
 
   getItems(limit: number, offset: number): Observable<{ items: Item[] }> {

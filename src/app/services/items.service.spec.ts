@@ -7,6 +7,10 @@ import { provideZoneChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Item } from '../state/models/item.model';
 import { ItemService } from './items.service';
+import {
+  createMockItem,
+  createMockItemList,
+} from '../state/models/__mocks__/item.model.mock';
 
 describe('ItemService', () => {
   let service: ItemService;
@@ -32,22 +36,7 @@ describe('ItemService', () => {
 
   describe('getItems', () => {
     it('should return an Observable<{ items: Item[] }>', () => {
-      const dummyItems: Item[] = [
-        {
-          title: 'Item 1',
-          description: 'Description 1',
-          price: 100,
-          email: 'test@example.com',
-          image: 'image1.jpg',
-        },
-        {
-          title: 'Item 2',
-          description: 'Description 2',
-          price: 200,
-          email: 'test2@example.com',
-          image: 'image2.jpg',
-        },
-      ];
+      const dummyItems: Item[] = createMockItemList();
 
       service.getItems(5, 0).subscribe((response) => {
         expect(response.items.length).toBe(2);
@@ -62,22 +51,16 @@ describe('ItemService', () => {
 
   describe('searchItems', () => {
     it('should return an Observable<{ items: Item[] }>', () => {
-      const dummyItems: Item[] = [
-        {
-          title: 'Item 1',
-          description: 'Description 1',
-          price: 100,
-          email: 'test@example.com',
-          image: 'image1.jpg',
-        },
-      ];
+      const dummyItems: Item[] = [createMockItem()];
 
       service.searchItems('Item 1').subscribe((response) => {
         expect(response.items.length).toBe(1);
         expect(response.items).toEqual(dummyItems);
       });
 
-      const req = httpMock.expectOne(`${service['apiUrl']}?search=Item 1`);
+      const req = httpMock.expectOne(
+        `${service['apiUrl']}/filter?search=Item 1`
+      );
       expect(req.request.method).toBe('GET');
       req.flush({ items: dummyItems });
     });

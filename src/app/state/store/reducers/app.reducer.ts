@@ -20,7 +20,7 @@ const appReducer = createReducer(
     return {
       ...state,
       loading: false,
-      items: action.items,
+      items: [...state.items, ...action.items],
     };
   }),
   on(itemActions.LoadItemsActions.loadItemsFailure, (state, action) => {
