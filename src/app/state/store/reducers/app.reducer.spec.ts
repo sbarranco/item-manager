@@ -15,7 +15,7 @@ describe('App Reducer', () => {
   };
 
   it('should set loading to true on loadItems action', () => {
-    const pagination = { limit: 5, offset: 0 };
+    const pagination = { limit: 5, start: 0 };
     const action = itemActions.LoadItemsActions.loadItems({ pagination });
     const state = appReducerReducerFunction(initialState, action);
     expect(state.loading).toBe(true);
@@ -23,7 +23,10 @@ describe('App Reducer', () => {
 
   it('should set loading to false and update items on loadItemsSuccess action', () => {
     const items: Item[] = createMockItemList();
-    const action = itemActions.LoadItemsActions.loadItemsSuccess({ items });
+    const action = itemActions.LoadItemsActions.loadItemsSuccess({
+      items,
+      pagination: { limit: 5, start: 0 },
+    });
     const state = appReducerReducerFunction(initialState, action);
     expect(state.loading).toBe(false);
     expect(state.items).toEqual(items);

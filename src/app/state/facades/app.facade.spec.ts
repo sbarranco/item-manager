@@ -28,7 +28,7 @@ describe('AppFacade', () => {
   });
 
   it('should dispatch loadItems action', () => {
-    const pagination: Pagination = { limit: 5, offset: 0 };
+    const pagination: Pagination = { limit: 5, start: 0 };
     const spy = jest.spyOn(store, 'dispatch');
     facade.loadItems(pagination);
     expect(spy).toHaveBeenCalledWith(

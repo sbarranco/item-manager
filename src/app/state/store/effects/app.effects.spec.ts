@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable, of, throwError } from 'rxjs';
 import { AppEffects } from './app.effects';
-import { ItemService } from '../../../services/items.service';
+import { ItemService } from '../../../services/items/items.service';
 import * as fromItemActions from '../actions/app.actions';
 import { Item } from '../../models/item.model';
 import { Action } from '@ngrx/store';
@@ -35,10 +35,11 @@ describe('AppEffects', () => {
     it('should return a loadItemsSuccess action with items on success', () => {
       const items: Item[] = createMockItemList();
       const action = fromItemActions.LoadItemsActions.loadItems({
-        pagination: { limit: 5, offset: 0 },
+        pagination: { limit: 5, start: 0 },
       });
       const outcome = fromItemActions.LoadItemsActions.loadItemsSuccess({
         items,
+        pagination: { limit: 5, start: 0 },
       });
 
       actions$ = of(action);
@@ -52,7 +53,7 @@ describe('AppEffects', () => {
 
     it('should return a loadItemsFailure action on failure', () => {
       const action = fromItemActions.LoadItemsActions.loadItems({
-        pagination: { limit: 5, offset: 0 },
+        pagination: { limit: 5, start: 0 },
       });
       const outcome = fromItemActions.LoadItemsActions.loadItemsFailure();
 

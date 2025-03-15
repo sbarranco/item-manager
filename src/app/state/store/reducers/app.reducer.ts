@@ -17,10 +17,11 @@ const appReducer = createReducer(
     };
   }),
   on(itemActions.LoadItemsActions.loadItemsSuccess, (state, action) => {
+    const isInitialLoad = action.pagination.start === 0;
     return {
       ...state,
       loading: false,
-      items: [...state.items, ...action.items],
+      items: isInitialLoad ? action.items : [...state.items, ...action.items],
     };
   }),
   on(itemActions.LoadItemsActions.loadItemsFailure, (state, action) => {

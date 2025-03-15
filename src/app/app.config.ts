@@ -8,6 +8,7 @@ import { environment } from '../environments/environment';
 import { routes } from './app.routes';
 import { AppEffects } from './state/store/effects/app.effects';
 import { reducers } from './state/store/reducers/app.reducer';
+import { ScrollService } from './services/scroll/scroll.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +21,6 @@ export const appConfig: ApplicationConfig = {
       maxAge: 25,
       logOnly: environment.production,
     }),
+    ScrollService,
   ],
 };

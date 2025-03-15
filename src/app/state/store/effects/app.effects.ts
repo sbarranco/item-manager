@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ItemService } from '../../../services/items.service';
+import { ItemService } from '../../../services/items/items.service';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as fromItemActions from '../actions/app.actions';
@@ -16,11 +16,12 @@ export class AppEffects {
       ofType(fromItemActions.LoadItemsActions.loadItems),
       mergeMap((action) =>
         this.itemService
-          .getItems(action.pagination?.limit, action.pagination?.offset)
+          .getItems(action.pagination?.limit, action.pagination?.start)
           .pipe(
             map((response) =>
               fromItemActions.LoadItemsActions.loadItemsSuccess({
                 items: response.items,
+                pagination: action.pagination,
               })
             ),
             catchError(() =>

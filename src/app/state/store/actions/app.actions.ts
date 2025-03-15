@@ -10,6 +10,7 @@ export const LoadItemsActions = createActionGroup({
 
     'Load Items Success': props<{
       items: Item[];
+      pagination: Pagination;
     }>(),
     'Load Items Failure': emptyProps(),
   },

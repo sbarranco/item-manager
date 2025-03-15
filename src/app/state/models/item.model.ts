@@ -8,5 +8,5 @@ export interface Item {
 
 export interface Pagination {
   limit: number;
-  offset: number;
+  start: number;
 }
