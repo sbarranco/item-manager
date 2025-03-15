@@ -5,8 +5,8 @@ export const handlers = [
   http.get('/api/items', ({ request }) => {
     const url = new URL(request.url);
     const limit = parseInt(url.searchParams.get('_limit') || '5', 10);
-    const offset = parseInt(url.searchParams.get('_start') || '0', 10);
-    const paginatedItems = data.items.slice(offset, offset + limit);
+    const start = parseInt(url.searchParams.get('_start') || '0', 10);
+    const paginatedItems = data.items.slice(start, start + limit);
     return HttpResponse.json({ items: paginatedItems });
   }),
 
@@ -15,10 +15,10 @@ export const handlers = [
     const search = url.searchParams.get('search') || '';
     const filteredItems = data.items.filter((item) => {
       return (
-        item.title.toString().includes(search) ||
-        item.description.toString().includes(search) ||
-        item.price.toString().includes(search) ||
-        item.email.toString().includes(search)
+        item.title.toLowerCase().includes(search) ||
+        item.description.toLowerCase().includes(search) ||
+        item.price.toLowerCase().includes(search) ||
+        item.email.toLowerCase().includes(search)
       );
     });
     return HttpResponse.json({ items: filteredItems });
