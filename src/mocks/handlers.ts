@@ -12,14 +12,14 @@ export const handlers = [
 
   http.get('/api/items/filter', ({ request }) => {
     const url = new URL(request.url);
-    const filters = Object.fromEntries(url.searchParams.entries());
+    const search = url.searchParams.get('search') || '';
     const filteredItems = data.items.filter((item) => {
-      return Object.entries(filters).every(([key, value]) => {
-        return (
-          (item as Record<string, any>)[key] &&
-          (item as Record<string, any>)[key].toString().includes(value)
-        );
-      });
+      return (
+        item.title.toString().includes(search) ||
+        item.description.toString().includes(search) ||
+        item.price.toString().includes(search) ||
+        item.email.toString().includes(search)
+      );
     });
     return HttpResponse.json({ items: filteredItems });
   }),

@@ -18,6 +18,8 @@ export class ItemService {
   }
 
   searchItems(query: string): Observable<{ items: Item[] }> {
-    return this.http.get<{ items: Item[] }>(`${this.apiUrl}?q=${query}`);
+    return this.http.get<{ items: Item[] }>(
+      `${this.apiUrl}/filter?search=${query}`
+    );
   }
 }

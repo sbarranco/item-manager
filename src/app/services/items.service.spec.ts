@@ -1,10 +1,12 @@
-import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { ItemService } from './items.service';
+import { provideZoneChangeDetection } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { Item } from '../state/models/item.model';
+import { ItemService } from './items.service';
 
 describe('ItemService', () => {
   let service: ItemService;
@@ -12,8 +14,12 @@ describe('ItemService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [ItemService],
+      providers: [
+        ItemService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideZoneChangeDetection({ ignoreChangesOutsideZone: true }),
+      ],
     });
 
     service = TestBed.inject(ItemService);
@@ -28,7 +34,6 @@ describe('ItemService', () => {
     it('should return an Observable<{ items: Item[] }>', () => {
       const dummyItems: Item[] = [
         {
-          id: 1,
           title: 'Item 1',
           description: 'Description 1',
           price: 100,
@@ -36,7 +41,6 @@ describe('ItemService', () => {
           image: 'image1.jpg',
         },
         {
-          id: 2,
           title: 'Item 2',
           description: 'Description 2',
           price: 200,
@@ -60,7 +64,6 @@ describe('ItemService', () => {
     it('should return an Observable<{ items: Item[] }>', () => {
       const dummyItems: Item[] = [
         {
-          id: 1,
           title: 'Item 1',
           description: 'Description 1',
           price: 100,
@@ -74,7 +77,7 @@ describe('ItemService', () => {
         expect(response.items).toEqual(dummyItems);
       });
 
-      const req = httpMock.expectOne(`${service['apiUrl']}?q=Item 1`);
+      const req = httpMock.expectOne(`${service['apiUrl']}?search=Item 1`);
       expect(req.request.method).toBe('GET');
       req.flush({ items: dummyItems });
     });
