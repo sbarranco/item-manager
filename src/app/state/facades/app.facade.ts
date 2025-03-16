@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromItemActions from '../store/actions/app.actions';
 import {
-  selectAllItems,
   selectLoading,
   selectFavoriteItems,
+  selectCombinedItems,
 } from '../store/selectors/app.selectors';
 import { Item, Pagination } from '../models/item.model';
 
@@ -14,7 +14,7 @@ import { Item, Pagination } from '../models/item.model';
 })
 export class AppFacade {
   private readonly store = inject(Store);
-  items$: Observable<Item[]> = this.store.select(selectAllItems);
+  items$: Observable<Item[]> = this.store.select(selectCombinedItems);
   loading$: Observable<boolean> = this.store.select(selectLoading);
   favoriteItems$: Observable<Item[]> = this.store.select(selectFavoriteItems);
 

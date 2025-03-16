@@ -4,6 +4,7 @@ export interface Item {
   price: number;
   email: string;
   image: string;
+  isFavorite?: boolean;
 }
 
 export interface Pagination {

@@ -15,3 +15,13 @@ export const selectFavoriteItems = createSelector(
   selectAppState,
   (state) => state?.favoriteItems
 );
+export const selectCombinedItems = createSelector(
+  selectAllItems,
+  selectFavoriteItems,
+  (items, favoriteItems) => {
+    return items.map((item) => ({
+      ...item,
+      isFavorite: favoriteItems.some((favItem) => favItem.title === item.title),
+    }));
+  }
+);
