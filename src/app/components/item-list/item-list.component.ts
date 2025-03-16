@@ -34,6 +34,7 @@ export class ItemListComponent implements OnInit, AfterViewInit {
 
   loading$ = this.appFacade.loading$;
   items$ = this.appFacade.items$;
+  favoriteItems$ = this.appFacade.favoriteItems$;
 
   initialLoadDone = signal(false);
   isSearchActive = signal(false);
@@ -89,6 +90,10 @@ export class ItemListComponent implements OnInit, AfterViewInit {
   }
 
   onTriggerFavorite(item: Item): void {
-    this.appFacade.addFavoriteItem(item);
+    if (item.isFavorite) {
+      this.appFacade.deleteFavoriteItem(item);
+    } else {
+      this.appFacade.addFavoriteItem(item);
+    }
   }
 }

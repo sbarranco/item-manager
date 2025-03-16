@@ -1,15 +1,13 @@
+<app-item-search (searchItems)="onClickSearchItems($event)" (resetSearch)="onClickResetSearch()"></app-item-search>
 
-  <h2>Item List</h2>
-
-  <app-item-search (searchItems)="onClickSearchItems($event)" (resetSearch)="onClickResetSearch()"></app-item-search>
-
+<div class="app-item-list__container">
   @for (item of items$ | async; track $index) {
-    <app-item-card [item]="item" (triggerFavorite)="onTriggerFavorite($event)"></app-item-card>
+  <app-item-card [item]="item" (triggerFavorite)="onTriggerFavorite($event)"></app-item-card>
   } @empty {
-    <p>No items found.</p>
+  <p>No items found.</p>
   }
-
-  @if (loading$ | async) {
-    <p>Loading...</p>
-  }
-  <div #scrollAnchor></div>
+</div>
+@if (loading$ | async) {
+<p>Loading...</p>
+}
+<div #scrollAnchor></div>
