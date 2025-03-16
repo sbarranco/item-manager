@@ -1,66 +1,130 @@
-.modal {
+@use "sass:color";
+@use "../../../styles/variables" as *;
+
+.favorites-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+
+  &__dialog {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    margin: 1.75rem auto;
+  }
+
+  &__content {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.8);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1000;
-}
+    padding: 16px;
+  }
 
-.modal-content {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.modal-header {
+  &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+  }
 
-.modal-title {
-    font-size: 1.5em;
-    margin: 0;
-}
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+  }
 
-.close-button {
+  &__close {
     background: none;
     border: none;
-    font-size: 1.5em;
+    font-size: 32px;
     cursor: pointer;
-}
+  }
 
-.favorites-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
+  &__body {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 0;
+  }
 
-.favorite-item {
+  &__item {
     display: flex;
     align-items: center;
-    margin: 10px 0;
-}
+    margin-bottom: 16px;
+    padding: 8px;
+    border: 1px solid $primary-color;
+    border-radius: 8px;
+    background-color: $card-background-color;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
-.favorite-item img {
-    width: 50px;
-    height: 50px;
+  &__item-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
     border-radius: 4px;
-    margin-right: 10px;
-}
+    margin-right: 16px;
+  }
 
-.remove-button {
-    background: none;
+  &__item-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+
+  &__item-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  &__item-remove {
+    height: 2rem;
+    background-color: $primary-color;
+    color: #fff;
     border: none;
-    color: red;
+    padding: 4px 8px;
     cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: color.adjust($primary-color, $lightness: 10%);
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    color: #555;
+    font-size: 16px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #ccc;
+    padding-top: 8px;
+  }
+
+  &__close-btn {
+    background-color: $secondary-color;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: color.adjust($secondary-color, $lightness: 10%);
+    }
+  }
 }

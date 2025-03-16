@@ -1,26 +1,27 @@
 @if(isOpen()) {
-  <div class="modal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="favoritesModalLabel">Favorites</h5>
-          <button type="button" class="close" aria-label="Close" (click)="closeModal.emit()">
-            <span aria-hidden="true">&times;</span>
-          </button>
+<div class="favorites-modal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel" aria-hidden="true">
+  <div class="favorites-modal__dialog" role="document">
+    <div class="favorites-modal__content">
+      <div class="favorites-modal__header">
+        <h5 class="favorites-modal__title" id="favoritesModalLabel">Favorites</h5>
+        <button type="button" class="favorites-modal__close" aria-label="Close" (click)="closeModal.emit()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="favorites-modal__body">
+        @for (item of favorites$ | async; track $index) {
+        <div class="favorites-modal__item">
+          <img [src]="'assets/images/items/' + item.image" alt="{{ item.title }}" class="favorites-modal__item-image" />
+          <div class="favorites-modal__item-details">
+            <span class="favorites-modal__item-title">{{ item.title }}</span>
+            <button class="favorites-modal__item-remove" (click)="onDeleteFavorites(item)">Remove</button>
+          </div>
         </div>
-        <div class="modal-body">
-          @for (item of favorites$ | async; track $index) {
-            <img [src]="'assets/images/' + item.image" alt="{{ item.title }}" class="favorite-item-image" />
-            <span>{{ item.title }}</span>
-            <button (click)="onDeleteFavorites(item)">Remove</button>
-          } @empty {
-            <div>No favorites added.</div>
-          }
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="closeModal.emit()">Close</button>
-        </div>
+        } @empty {
+        <div>No favorites added.</div>
+        }
       </div>
     </div>
   </div>
+</div>
 }
