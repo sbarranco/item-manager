@@ -138,7 +138,11 @@ npm run test:jest:coverage
 For end-to-end (e2e) testing with Cypress, run:
 
 ```bash
-npm run test:cypress
+npm run start
+```
+
+```bash
+npm cypress:run
 ```
 
 To open the Cypress Test Runner:

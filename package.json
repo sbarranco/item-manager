@@ -10,7 +10,9 @@
     "lint": "eslint src --ext .ts",
     "test:jest:watch": "jest --watchAll",
     "test:jest:coverage": "jest --coverage",
-    "test:cypress": "cypress run",
+    "start:server": "ng serve",
+    "cypress:run": "cypress run",
+    "test:cypress": "npm-run-all --parallel start:server -- cypress:run",
     "test:cypress:open": "cypress open"
   },
   "private": true,
