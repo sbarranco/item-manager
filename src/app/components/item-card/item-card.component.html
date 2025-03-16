@@ -1,8 +1,19 @@
-<div class="item-detail">
-  <h2>{{ item().title }}</h2>
-  <img [src]="'assets/images/' + item().image" alt="{{ item().title }}" />
-  <p><strong>Description:</strong> {{ item().description }}</p>
-  <p><strong>Price:</strong> {{ item().price | currency }}</p>
-  <p><strong>Email:</strong> <a href="mailto:{{ item().email }}">{{ item().email }}</a></p>
-  <button (click)="triggerFavorite.emit(item())">Add to Favorites</button>
+<div class="app-item-card">
+  <div class="app-item-card__image-container">
+    <img class="app-item-card__image" [src]="'assets/images/items/' + item().image" alt="{{ item().title }}" />
+    <span class="app-item-card__favorite" (click)="triggerFavorite.emit(item())">
+      <i [class]="item().isFavorite ? 'fas fa-heart' : 'far fa-heart'"></i>
+    </span>
+  </div>
+  <hr class="app-item-card__divider" />
+  <h2 class="app-item-card__title">{{ item().title }}</h2>
+  <p class="app-item-card__description">{{ item().description }}</p>
+  <hr class="app-item-card__divider" />
+  <p class="app-item-card__price">
+    <i class="fas fa-coins"></i> {{ item().price | currency }}
+  </p>
+  <p class="app-item-card__email">
+    <i class="fas fa-envelope"></i>
+    <a href="mailto:{{ item().email }}">{{ item().email }}</a>
+  </p>
 </div>

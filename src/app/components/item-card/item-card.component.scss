@@ -1,33 +1,107 @@
-.item-detail {
-    padding: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    margin: 16px 0;
-}
+@use "../../../styles/variables" as *;
 
-.item-detail img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-}
+.app-item-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 18.75rem;
+  height: 50rem;
+  padding: 24px;
+  border: 1px solid $primary-color;
+  border-radius: 8px;
+  background-color: $card-background-color;
+  margin: 16px 0;
+  text-align: center;
+  position: relative;
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.1);
 
-.item-detail h2 {
+  &__image-container {
+    position: relative;
+  }
+
+  &__image {
+    width: 100%;
+    height: 25rem;
+    object-fit: cover;
+    display: block;
+    border-radius: 6px;
+  }
+
+  &__favorite {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     font-size: 24px;
-    margin: 8px 0;
-}
+    color: #5f634f;
+    padding: 8px;
 
-.item-detail p {
+    &:hover {
+      background-color: rgba(155, 196, 203, 1);
+    }
+
+    &:active {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &__divider {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 16px 0;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 8px 0;
+  }
+
+  &__description {
     font-size: 16px;
     color: #555;
-}
+  }
 
-.item-detail .price {
+  &__price {
+    font-size: 20px;
     font-weight: bold;
-    color: #333;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-.item-detail .email {
+    i {
+      color: $primary-color;
+      margin-right: 8px;
+    }
+  }
+
+  &__email {
     font-style: italic;
-    color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      color: $primary-color;
+      margin-right: 8px;
+    }
+
+    a {
+      color: $text-color;
+      text-decoration: none;
+
+      &:hover {
+        color: $primary-color;
+        text-decoration: underline;
+      }
+    }
+  }
 }
