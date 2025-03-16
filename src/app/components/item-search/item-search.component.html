@@ -1,6 +1,7 @@
 <div class="item-search">
-    <label for="search">Search items</label>
-    <input id="search" type="text" [formControl]="search" placeholder="Title, description, price or email">
-    <button (click)="onClickSearchItems()">Search</button>
-    <button (click)="onClickResetSearch()">Reset</button>
+  <div class="item-search__input-container">
+    <i class="fas fa-search item-search__icon"></i>
+    <input id="search" type="text" [formControl]="search" placeholder="Search for item, price or description" />
+    <i class="fas fa-times item-search__clear-icon" *ngIf="search.value" (click)="onClickResetSearch()"></i>
   </div>
+</div>
